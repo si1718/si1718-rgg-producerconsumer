@@ -1,0 +1,12 @@
+/Users/rafagmez/Documents/Universidad de Sevilla/Sistemas de Información/Sesion12 - 07 Dic - Jorge/workspace/DataStreaming/src/main/java/dbase/MongoConnection.java
+/Users/rafagmez/Documents/Universidad de Sevilla/Sistemas de Información/Sesion12 - 07 Dic - Jorge/workspace/DataStreaming/src/main/java/dbase/Utils.java
+/Users/rafagmez/Documents/Universidad de Sevilla/Sistemas de Información/Sesion12 - 07 Dic - Jorge/workspace/DataStreaming/src/main/java/data/streaming/dto/TweetUserDTO.java
+/Users/rafagmez/Documents/Universidad de Sevilla/Sistemas de Información/Sesion12 - 07 Dic - Jorge/workspace/DataStreaming/src/main/java/data/streaming/utils/LoggingFactory.java
+/Users/rafagmez/Documents/Universidad de Sevilla/Sistemas de Información/Sesion12 - 07 Dic - Jorge/workspace/DataStreaming/src/main/java/data/streaming/dto/KeywordDTO.java
+/Users/rafagmez/Documents/Universidad de Sevilla/Sistemas de Información/Sesion12 - 07 Dic - Jorge/workspace/DataStreaming/src/main/java/data/streaming/test/TestFlinkKafkaProducer.java
+/Users/rafagmez/Documents/Universidad de Sevilla/Sistemas de Información/Sesion12 - 07 Dic - Jorge/workspace/DataStreaming/src/main/java/data/streaming/dto/TweetDTO.java
+/Users/rafagmez/Documents/Universidad de Sevilla/Sistemas de Información/Sesion12 - 07 Dic - Jorge/workspace/DataStreaming/src/main/java/data/streaming/test/SinkMongoDB.java
+/Users/rafagmez/Documents/Universidad de Sevilla/Sistemas de Información/Sesion12 - 07 Dic - Jorge/workspace/DataStreaming/src/main/java/data/streaming/utils/Utils.java
+/Users/rafagmez/Documents/Universidad de Sevilla/Sistemas de Información/Sesion12 - 07 Dic - Jorge/workspace/DataStreaming/src/main/java/data/streaming/test/Batch.java
+/Users/rafagmez/Documents/Universidad de Sevilla/Sistemas de Información/Sesion12 - 07 Dic - Jorge/workspace/DataStreaming/src/main/java/data/streaming/test/TestFlinkKafkaConsumer.java
+/Users/rafagmez/Documents/Universidad de Sevilla/Sistemas de Información/Sesion12 - 07 Dic - Jorge/workspace/DataStreaming/src/main/java/data/streaming/aux/ValidTagsTweetEndpoIntinitializer.java
