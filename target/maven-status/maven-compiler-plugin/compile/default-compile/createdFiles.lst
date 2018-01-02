@@ -1,0 +1,14 @@
+data/streaming/utils/Utils.class
+data/streaming/test/TestFlinkKafkaProducer.class
+data/streaming/dto/KeywordDTO.class
+data/streaming/test/TestFlinkKafkaConsumer.class
+data/streaming/aux/ValidTagsTweetEndpoIntinitializer.class
+data/streaming/dto/TweetDTO.class
+data/streaming/test/TestFlinkKafkaConsumer$1.class
+dbase/MongoConnection.class
+data/streaming/dto/TweetUserDTO.class
+data/streaming/test/SinkMongoDB.class
+data/streaming/utils/LoggingFactory.class
+dbase/Utils.class
+data/streaming/test/Batch$1.class
+data/streaming/test/Batch.class

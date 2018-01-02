@@ -2,7 +2,9 @@
 package data.streaming.test;
 
 import java.util.SortedSet;
+import java.util.HashSet;
 import java.util.Properties;
+import java.util.Set;
 
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
@@ -25,13 +27,22 @@ public class TestFlinkKafkaProducer {
 		// Conexion y obtencion de keywords
 		MongoConnection mongoConnect = new MongoConnection();
 		SortedSet<String> keywords = mongoConnect.getKeywords();
+		/*final String[] stringKEYWORDS = keywords.toArray(new String[keywords.size()]);*/
 		
-		/*final String[] stringKEYWORDS = {"biotech", "science", "biology", "technology", "tic",
-				"communication", "energy", "health", " humanities"};*/
-		final String[] stringKEYWORDS = keywords.toArray(new String[keywords.size()]);
+		Set <String> stringKEYWORDS = new HashSet <> ();
+		
+		for (String s:keywords) {
+			if (s.contentEquals("biotech") || s.contentEquals("science") || s.contentEquals("biology")
+					|| s.contentEquals("technology") || s.contentEquals("tic") || s.contentEquals("comunicacion")
+					|| s.contentEquals("health") || s.contentEquals("energy") || s.contentEquals("humanities")) {
+				stringKEYWORDS.add(s);
+			}
+		}
+		
+		final String[] keywordsToSearch = stringKEYWORDS.toArray(new String[stringKEYWORDS.size()]);
 
 		// Establecemos el filtro
-		twitterSource.setCustomEndpointInitializer(new ValidTagsTweetEndpoIntinitializer(stringKEYWORDS));
+		twitterSource.setCustomEndpointInitializer(new ValidTagsTweetEndpoIntinitializer(keywordsToSearch));
 
 		// set up the execution environment
 		StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();

@@ -1,16 +1,18 @@
 package data.streaming.test;
 
-//import java.io.BufferedReader;ç
-//import java.io.InputStreamReader;
-//import java.net.MalformedURLException;
-//import java.net.URL;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
+import org.apache.sling.commons.json.JSONException;
 import org.bson.Document;
 
 import com.mongodb.BasicDBObject;
@@ -34,6 +36,7 @@ public class Batch {
     private static MongoClient client;
     private static MongoDatabase database;
     private static DB db;
+    private final static ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     
     
 	public static void ratingGroups () /*throws MalformedURLException*/ {
@@ -148,6 +151,7 @@ public class Batch {
 		
 		collectionRatings.insert(new ArrayList<>(ratingsList));
 		System.out.println("INFORMATION: New ratings inserted into the database");
+		
 		client.close();
     }
 	
@@ -181,12 +185,25 @@ public class Batch {
 	public static void grantsData () {
 		client = new MongoClient(uri);
 		database = client.getDatabase("si1718-rgg-groups");
+		db = client.getDB("si1718-rgg-groups");
 		MongoCollection<org.bson.Document> collectionTweets = database.getCollection("tweets");
 		
 		// Conexion y obtencion de keywords
 		MongoConnection mongoConnect = new MongoConnection();
 		SortedSet<String> keywords = mongoConnect.getKeywords();
-		final String[] stringKEYWORDS = keywords.toArray(new String[keywords.size()]);
+		//final String[] stringKEYWORDS = keywords.toArray(new String[keywords.size()]);
+		
+		Set <String> stringKEYWORDS = new HashSet <> ();
+		
+		for (String s:keywords) {
+			if (s.contentEquals("biotech") || s.contentEquals("science") || s.contentEquals("biology")
+					|| s.contentEquals("technology") || s.contentEquals("tic") || s.contentEquals("comunicacion")
+					|| s.contentEquals("health") || s.contentEquals("energy") || s.contentEquals("humanities")) {
+				stringKEYWORDS.add(s);
+			}
+		}
+		
+		final String[] keywordsToSearch = stringKEYWORDS.toArray(new String[stringKEYWORDS.size()]);
 		
 		List <Document> tweetsList = new ArrayList <> ();
 		List <Document> dataList = new ArrayList <> ();
@@ -204,7 +221,7 @@ public class Batch {
 			dataList.add(dIni);
 		}
 		
-		for (int i = 0; i < stringKEYWORDS.length; i++) {
+		for (int i = 0; i < keywordsToSearch.length; i++) {
 			
 			for (int j = 0; j < tweetsList.size(); j++) {
 				Object doc1 = tweetsList.get(j).get("creationDate");
@@ -214,8 +231,8 @@ public class Batch {
 				String day = newdoc1[2];
 				Object date = day + "-" + month + "-" + year;
 				
-				if (tweetsList.get(j).get("text").toString().contains(stringKEYWORDS[i])) {
-					String keyword = stringKEYWORDS[i];
+				if (tweetsList.get(j).get("text").toString().contains(keywordsToSearch[i])) {
+					String keyword = keywordsToSearch[i];
 					createDocChart(dataList, date, keyword);
 				}
 			}
@@ -236,12 +253,28 @@ public class Batch {
 			System.out.println("INFORMATION: Documents with charts data inserted");
 		}
 		
+		DBCollection collectionTweetsRemoved = db.getCollection("tweets");
+		WriteResult tweetsRemoved = collectionTweetsRemoved.remove(new BasicDBObject());
+		System.out.println("Number of old tweets are deleted: " + tweetsRemoved.getN());
+		
 		client.close();
 	}
 	
-	public static void main (String [] args) throws IOException {
-		ratingGroups();
-		grantsData();
+	
+	public static void executor() {
+		final Runnable beeper = new Runnable () {
+			public void run () {
+				ratingGroups();
+				grantsData();
+			}
+		};
+		final ScheduledFuture<?> beeperHandle =
+				scheduler.scheduleAtFixedRate(beeper, 12, 12, TimeUnit.HOURS);
+	}
+	
+	
+	public static void main(String... args) throws Exception{
+		executor();
 	}
 
 }
